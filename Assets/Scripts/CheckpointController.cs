@@ -1,10 +1,14 @@
 using UnityEngine;
+using TMPro;
 
 public class CheckpointController : MonoBehaviour
 {
     public CheckpointController next;
     public MeshRenderer left;
     public MeshRenderer right;
+    public bool isFirst = false;
+    int laps = 0;
+    public TextMeshProUGUI laplbl;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +26,11 @@ public class CheckpointController : MonoBehaviour
         VehicleController vehicle = other.gameObject.GetComponent<VehicleController>();
         if (vehicle != null && vehicle.target == this)
         {
+            if (isFirst)
+            {
+                laplbl.text = string.Format("Laps: {0}", laps);
+                laps++;
+            }
             vehicle.target = next;
             next.left.materials[0].color = Color.red;
             next.right.materials[0].color = Color.red;
